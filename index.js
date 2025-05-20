@@ -29,53 +29,53 @@ client.once(Events.ClientReady, readyClient => {
     console.log(`Ready! Logged in as ${readyClient.user.tag}`);
     const channelId = '1001125960235614270';
     // const channelId = '1001115363406270514';
-    cron.schedule('*/1 * * * *', () => {
-        (async () => {
-            // 👇 keep your async logic here
-            const now = DateTime.now().setZone('Asia/Bangkok');
-            const target = DateTime.fromObject(
-                { year: now.year, month: 6, day: 25, hour: 6, minute: 30 },
-                { zone: 'Asia/Bangkok' }
-            );
+    // cron.schedule('*/1 * * * *', () => {
+    //     (async () => {
+    //         // 👇 keep your async logic here
+    //         const now = DateTime.now().setZone('Asia/Bangkok');
+    //         const target = DateTime.fromObject(
+    //             { year: now.year, month: 6, day: 25, hour: 6, minute: 30 },
+    //             { zone: 'Asia/Bangkok' }
+    //         );
 
-            if (now > target) {
-                console.log(`[SCHEDULED] Countdown expired — skipping topic update.`);
-                return;
-            }
+    //         if (now > target) {
+    //             console.log(`[SCHEDULED] Countdown expired — skipping topic update.`);
+    //             return;
+    //         }
 
-            const remaining = Math.floor(target.diff(now, 'days').days);
-            // const countdownMsg = `⏳ ${remaining} day${remaining === 1 ? '' : 's'} left until 25/6 6:30AM GMT+7`;
-            const countdownMsg = `⏳ Còn ${remaining} ngày đến kì thi THPTQG (25/6)`
-            // console.log(countdownMsg)
+    //         const remaining = Math.floor(target.diff(now, 'days').days);
+    //         // const countdownMsg = `⏳ ${remaining} day${remaining === 1 ? '' : 's'} left until 25/6 6:30AM GMT+7`;
+    //         const countdownMsg = `⏳ Còn ${remaining} ngày đến kì thi THPTQG (25/6)`
+    //         // console.log(countdownMsg)
 
-            try {
-                console.log('[DEBUG] Fetching channel...');
-                const channel = await client.channels.fetch(channelId);
-                console.log('[DEBUG] Fetched:', channel?.name ?? 'unknown');
+    //         try {
+    //             console.log('[DEBUG] Fetching channel...');
+    //             const channel = await client.channels.fetch(channelId);
+    //             console.log('[DEBUG] Fetched:', channel?.name ?? 'unknown');
 
-                if (!channel.isTextBased()) {
-                    console.log('[DEBUG] Not a text-based channel');
-                    return;
-                }
+    //             if (!channel.isTextBased()) {
+    //                 console.log('[DEBUG] Not a text-based channel');
+    //                 return;
+    //             }
 
-                const currentTopic = channel.topic || '';
-                const baseTopic = currentTopic.replace(/⏳.*?(GMT\+7)?/g, '').trim();
-                const updatedTopic = `${baseTopic} || ${countdownMsg}`;
+    //             const currentTopic = channel.topic || '';
+    //             const baseTopic = currentTopic.replace(/⏳.*?(GMT\+7)?/g, '').trim();
+    //             const updatedTopic = `${baseTopic} || ${countdownMsg}`;
 
-                if (currentTopic !== updatedTopic) {
-                    await channel.setTopic(updatedTopic);
-                    console.log(`[SCHEDULED] Updated topic: ${updatedTopic}`);
-                } else {
-                    console.log(`[SCHEDULED] Topic already up-to-date. Skipped.`);
-                }
-            } catch (err) {
-                console.error('Failed to update channel topic:', err);
-            }
+    //             if (currentTopic !== updatedTopic) {
+    //                 await channel.setTopic(updatedTopic);
+    //                 console.log(`[SCHEDULED] Updated topic: ${updatedTopic}`);
+    //             } else {
+    //                 console.log(`[SCHEDULED] Topic already up-to-date. Skipped.`);
+    //             }
+    //         } catch (err) {
+    //             console.error('Failed to update channel topic:', err);
+    //         }
 
-        })();
-    }, {
-        timezone: 'Asia/Bangkok',
-    });
+    //     })();
+    // }, {
+    //     timezone: 'Asia/Bangkok',
+    // });
 
 });
 
