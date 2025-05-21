@@ -4,6 +4,18 @@ const fs = require('node:fs');
 const { Client, Events, GatewayIntentBits, Collection } = require('discord.js')
 const cron = require('node-cron');
 const { DateTime } = require('luxon');
+const express = require('express')
+
+const app = express()
+const port = 2502
+
+app.get('/', (req, res) => {
+    res.send("Hi~")
+})
+
+app.listen(port, () => {
+    console.log(`Server is online at port ${port}`)
+})
 
 const client = new Client({
     intents: [
